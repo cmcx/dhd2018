@@ -1,0 +1,270 @@
+# -*- coding: utf-8 -*-
+
+import tweepy
+from tweepy import OAuthHandler
+import json
+
+# not sure if the following are all necessary
+import pandas as pd
+import matplotlib as mpl
+#mpl.use('Agg')
+import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
+from matplotlib import rcParams
+#from mpltools import style
+from matplotlib import dates
+from datetime import datetime
+import seaborn as sns
+import time
+import os
+from scipy.misc import imread
+from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
+import random
+import csv
+
+# authentication
+
+consumer_key = 'vRV9M7JwVdNM7nUIcJR9QUHe5'
+consumer_secret = '6kFxtPN9rUQwTUvuaMYKj6lkxkd6nBWaJ03sSlxIAvMYwd1cFJ'
+access_token = '2519843085-sdaIBDKmY196Cb2ZlltHPqdRNgssV8NBmvA1fIh'
+access_token_secret = 'JkJfVDQXbDA84ZIpekFF0Cm6wBbAM6RlFlzaTvB8h0WAG'
+
+def authenticate():
+    '''
+    authenticates with the necessary credentials, returns the shortened api
+    '''
+    consumer_key = 'vRV9M7JwVdNM7nUIcJR9QUHe5'
+    consumer_secret = '6kFxtPN9rUQwTUvuaMYKj6lkxkd6nBWaJ03sSlxIAvMYwd1cFJ'
+    access_token = '2519843085-sdaIBDKmY196Cb2ZlltHPqdRNgssV8NBmvA1fIh'
+    access_token_secret = 'JkJfVDQXbDA84ZIpekFF0Cm6wBbAM6RlFlzaTvB8h0WAG'
+
+    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+    auth.set_access_token(access_token, access_token_secret)
+    api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
+    return api
+
+api = authenticate()
+
+# handle the api limits
+
+def limit_handled(cursor):
+    '''
+    tries to handle the api limits, only for one call (does not check if the count is full when called)
+    '''
+    while True:
+        try:
+            yield cursor.next()
+        except tweepy.RateLimitError:
+            print('Hit RateLimitError. Sleeping...')
+            time.sleep(15*65)            
+        except tweepy.TweepError as e:
+            print('Hit TweepError.')
+            print e.api_code    # prints the error code (34)
+            print e.reason
+            print('Continue.')
+            break
+
+
+# get all tweets from the user and print them
+def getAllTweets():
+    '''
+    gets all tweets and prints them
+    '''
+    public_tweets = api.home_timeline()
+    for tweet in public_tweets:
+        print tweet.text
+
+def getMyTweets(numberOfTweets):
+    '''
+    gets the specified number of tweets and prints them
+    '''
+    tweets = []
+    for status in tweepy.Cursor(api.home_timeline).items(numberOfTweets):
+        tweets.append(status.text)
+    return tweets 
+
+def twitSearch(keyword, numberOfTweets):
+    '''
+    makes a search on twitter, returns a list with the json-data from the twitter api
+    '''
+    tweets = []
+    data = limit_handled(tweepy.Cursor(api.search, q=keyword).items(numberOfTweets))
+    for tweet in data:
+        tweets.append(json.loads(json.dumps(tweet._json)))
+    return tweets
+
+def twitSearchAndSave(keyword, numberOfTweets, datafile):
+    '''
+    makes a search on twitter, returns a list with the json-data from the twitter api and saves the data in a given datafile
+    '''
+    tweets = []
+    data = tweepy.Cursor(api.search, q=keyword).items(numberOfTweets)
+    with open(datafile, 'w') as myfile:
+        for tweet in data:
+            tweets.append(json.loads(json.dumps(tweet._json)))
+            myfile.write(json.dumps(tweet._json))
+            myfile.write("\n")
+    return tweets
+
+
+### get followers ###
+
+def getFollowers(ID, user_id = False):
+    '''
+    get the user_ids of all followers of a single user, either for her user_id or her screen name. If stated explicitly (boolean), the search will explicitly send the user_id, otherwise it's ID (can be screen_name or user_id);
+    returns a list with the user_ids of all followers
+    '''
+    if user_id:     # if we have a screen name and no ID, get the stuff using the screen-name
+        followers = limit_handled(tweepy.Cursor(api.followers_ids, user_id = ID).items())
+    else:
+        followers = limit_handled(tweepy.Cursor(api.followers_ids, id = ID).items())
+
+    followerIDs = []
+    for follower in followers:
+        followerIDs.append(follower)
+    if not followerIDs:                 # if we don't have any followers, mark that too so we know we have processed this user already.
+        followerIDs.append('NaN')
+    return followerIDs
+
+def getFriends(ID, user_id=False):
+    '''
+    get the IDs of all friends of a single user, using the api id (can be screen-name or user_id), force user_id for disambiguation
+    returns a list with the users friends
+    '''
+    if not user_id: 
+        friends = limit_handled(tweepy.Cursor(api.friends_ids, id = ID).items())
+    elif user_id:
+        friends = limit_handled(tweepy.Cursor(api.friends_ids, user_id = ID).items())
+    friendIDs = []
+    for friend in friends:
+        friendIDs.append(friend)
+    if not friendIDs:
+        friendIDs.append('NaN')
+    return friendIDs
+
+def getContacts(ID, user_id=False):
+    '''
+    get all contacts of a user (followers and friends) and return two lists
+    '''
+    return getFollowers(ID, user_id), getFriends(ID, user_id)
+
+
+def writeNetwork(networkdata, relation, nodefile = 'nodes.csv', edgefile = 'edges.csv'):
+    '''
+    takes one dictionaries with users as keys and either friends or followers in a list (value). 
+    relation has to be specified as 'friends' or 'followers' in order to produce the right direction in the edges-file
+    writes a node file with node info (Id, Label) and an edges file using the node ids (Id, source, target, type=directed)
+    '''
+    val_list = []
+    for users in networkdata.itervalues():
+        for user in users:
+            val_list.append(user)
+    nodes = networkdata.keys() + val_list
+    nodes = set(nodes)                                      # delete duplicates
+    node_ids = {}
+    with open(nodefile, 'a') as nfile:                      # write the nodefile
+        dw = csv.writer(nfile)
+        dw.writerow(['Id', 'Label'])
+        Id = 1
+        for node in nodes:
+            node_ids[node] = Id
+            dw.writerow([Id, node])
+            Id += 1
+    with open(edgefile, 'a') as efile:                      # start writing the edges
+        dw = csv.writer(efile)
+        dw.writerow(['Id', 'Source', 'Target', 'Type'])
+        if relation == 'followers':                         # deal with the directions of followers/friends
+            Id = 0
+            for source in networkdata.keys():
+                for target in networkdata[source]:
+                    dw.writerow([Id, node_ids[source], node_ids[target], 'directed'])
+                    Id += 1
+        elif relation == 'friends':
+            Id = 0
+            for target in networkdata.keys():
+                for source in networkdata[target]:
+                    dw.writerow([Id, node_ids[source], node_ids[target], 'directed'])
+                    Id += 1
+    print('nodes have been written to ' + nodefile + '. edges have been written to ' + edgefile + ' .')
+
+
+def getFollowers2D(user_followercount, max_list=5000, datadump=False, append=True, datafile='edges.csv'):
+    '''
+    takes in a dictionary with user screen-names or IDs and the number of their followers (in the form user-screen-name: number),
+    returns a dictionary with the user-screen-names as keys and a list of their followers (only ids) as values,
+    writes a csv file "edges.csv" in the working directory if datadump == True, a row containing: user-screen-name, follower-id, 'directed'
+    '''
+
+    if datadump and not append:    # see if we need to record this, and if we do:
+        with open(datafile, 'w') as csvfile:     # write the first line in the csv-file
+            writer = csv.writer(csvfile)
+            writer.writerow(['user', 'follower', 'relation'])
+    raw_following = {}  #initialise the dict where we will store all user:followers data
+    for user in user_followercount.iterkeys():
+        raw_following[user] = []    # for starters, every user has an empty list of followers
+    count = len([user for user, followers in raw_following.iteritems() if followers == []]) # count the users we need to get data for
+    while count > 0:                # start the loop and keep it running as long as there are empty followers-lists in raw_following
+        innercount = 15             # only do 15 connections in a row (twitter api rate limit)
+        for user in raw_following.iterkeys():
+            if user_followercount[user] < max_list and raw_following[user] == [] and innercount != 0:
+                raw_following[user] = getFollowers(user)    # helper function: get the list of follower-ids for this user. 
+                print('processing user ' + user + ' ...')
+                if datadump:
+                    with open(datafile, 'a') as csvfile:     # open our csv file in append-mode
+                        writer = csv.writer(csvfile)            # initialise the csv-writer
+                        for follower in raw_following[user]:    # write a new line for each follower
+                            writer.writerow([user, follower, 'directed'])
+                print('user ' + user + ' processed successfully.')
+                innercount -= 1
+                count -= 1
+            elif innercount == 0:       # if we run out of connections:
+                print(str(count) + ' users left to process.')   # tell us how many users are left to process
+                print('sleeping...')
+                time.sleep(15*61)                               # sleep for 15+ minutes
+                innercount = 15                                 # reset the counter for the api rate limit
+    return raw_following                                        # return the dictionary with the data
+
+
+
+############
+# plotting #
+############
+
+# General plotting function for the different information extracted
+def plot_tweets_per_category(category, title, x_title, y_title, top_n=5, output_filename="plot.png"):
+    """
+    :param category: Category plotted, can be tweets users, tweets language, tweets country etc ..
+    :param title: Title of the plot
+    :param x_title: List of the items in x
+    :param y_title: Title of the variable plotted
+    :return: a plot that we can save as pdf or png instead of displaying to the screen
+    """
+    tweets_by_cat = category.value_counts()
+    fig, ax = plt.subplots()
+    ax.tick_params(axis='x')
+    ax.tick_params(axis='y')
+    ax.set_xlabel(x_title)
+    ax.set_ylabel(y_title)
+    ax.set_title(title)
+    tweets_by_cat[:top_n].plot(ax=ax, kind='bar')
+    fig.savefig(output_filename)
+    fig.show()
+
+
+# a bit more sophisticated, using a statistical function (don't know which one)
+def plot_distribution(category, title, x_title, y_title, output_filename="plot.png"):
+    """
+    :param category: Category plotted, can be users, language, country etc ..
+    :param title: Title of the plot
+    :param x_title: List of the items in x
+    :param y_title: Title of the variable plotted
+    :return: a plot that we can save as pdf or png instead of displaying to the screen
+    """
+    fig, ax = plt.subplots()
+    ax.tick_params(axis='x')
+    ax.tick_params(axis='y')
+    ax.set_xlabel(x_title)
+    ax.set_ylabel(y_title)
+    ax.set_title(title)
+    sns.distplot(category.values, rug=True, hist=True);
+    fig.savefig(output_filename)
