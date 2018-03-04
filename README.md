@@ -4,11 +4,12 @@
 
 ## Kurzbeschreibung
 
-In diesem Repository liegen die Daten zum Hashtagnetzwerk #dhd2018 (Hashtag zur Konferenz DHd 2018 Kritik der digitalen Vernunft).
+In diesem Repository liegen die Daten zum Twitter-Hashtagnetzwerk #dhd2018 (Hashtag zur Konferenz DHd 2018 Kritik der digitalen Vernunft) für den Zeitraum vom 20.2.2018 bis zum 2.3.2018 (~17 Uhr MEZ). Die Auswertung der Daten war explorativ und ist (noch) sehr unvollständig. Einige Visualisierungen des Netzwerks finden sich weiter unten, ansonsten dient das Repository vor allem dazu, die Daten für die weitere Auswertung zur Verfügung zu stellen.
+
 
 ## Daten
 
-Das Repository enthält einen Ausgangsdatensatz **tweets.json** und eine Reihe von Ableitungen/Reduktionen und Ergänzungen dieses Datensatzes:
+Alle verarbeiteten Tweets sind in der Datei **tweets.json** gespeichert. Ich habe für das Retrieval das Python-Modul tweepy verwendet, die Datenstruktur entspricht dem Default von Tweepy. Aus dieser Datei wurden Ableitungen generiert und zum Teil mit weiteren Nutzerdaten von twitter.com ergänzt.
 
 - tweets.json: 3364 Tweets mit dem Hashtag #dhd2018, die im Zeitraum vom 20.2.2018 bis zum 2.3.2018 (~17 Uhr MEZ) gesendet wurden, das heißt kurz vor und während der Konferenz DHd 2018; die Tweets wurden mit einer Suchabfrage von twitter.com heruntergeladen.
 - followers.json: Alle Follower zu den Accounts des Hashtagnetzwerks #dhd2018 (Ergänzung)
