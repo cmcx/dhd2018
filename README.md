@@ -56,16 +56,6 @@ Das Netzwerk zerfällt also kaum in unterscheidbare Communities, es ist eher zen
 Nach Betweenness ist der wichtigste Hub im gesamten Netzwerk der Account @umblaetterer. Was natürlich für das Netzwerk einer Konferenz zur "Kritik der digitalen Vernunft" allein wegen der Medienreflexion, die sich in diesem Zusammenhang im Accountnamen andeutet, großartig ist.
 
 
-## Minimalvergleich zu #dhd2017
-
-                                    #dhd2017                      #dhd2018
-------------------  ------------------------  ----------------------------
-Anzahl Tweets                           3092                          3364
-unique users                             392                           435
-
-------------------  ------------------------  ----------------------------
-
-
 ## Labornotizen
 
 Ziel: Twitter-Netzwerk(e) zum Hashtag #dhd2018 erheben und visualisieren
