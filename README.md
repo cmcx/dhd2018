@@ -43,7 +43,7 @@ Die Visualisierungen sind mit heißer Nadel gestrickt. Auffällig ist, dass die 
 
 Über die Modularity des Netzwerks lassen sich ein paar Communities schwach unterscheiden. Ob diese Communities den Schwerpunkten der Digital Humanities -- Editionsphilologie, Textanalyse, Bildanalyse, Kulturelles Erbe -- zugeordnet werden können, könnte nur mit einer fachlichen Zuordnung einer ausreichend großen Menge von Accounts geprüft werden.
 
-![Communities des Hashtagnetzwerks #dhd2018 (nur Following, Modularity 1.05](visuals/full_followers_cluster_modularity_2.png)
+![Communities des Hashtagnetzwerks #dhd2018 (nur Following, Modularity 1.05](visuals/full_followers_cluster_modularity.png)
 
 Das Netzwerk zerfällt also kaum in unterscheidbare Communities, es ist eher zentral organisiert, mit der üblichen Struktur eines gut miteinander vernetzten Zentrums und einer schwächer vernetzten und jeweils an das Zentrum angebundenen Peripherie. Im Zentrum stehen dabei sowohl institutionelle wie persönliche Accounts.
 
