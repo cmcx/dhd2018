@@ -1,6 +1,6 @@
 % Notizbuch Netzwerkexploration #dhd2018
 % Claus-Michael Schlesinger
-% 3.3.2018
+% 4444.3.2018
 
 ## Kurzbeschreibung
 
@@ -26,15 +26,17 @@ Im Verzeichnis **graphdata** finden sich csv-Dateien, die direkt mit Gephi verar
 - edges_ff.csv: Netzwerk der 435 Accounts und ihrer jeweiligen Friends und Follower
 - edges_followers.csv: Netzwerk der 435 Accounts und ihrer Follower
 - edges_friends.csv: 435 Accounts und Friends
+- edges_mentions.csv: Zusammenfassung von Mentions und Retweets (im Datenmodell die `user_mentions` in den `entities` eines Tweets).
 - edges_intern_ff.csv: Netzwerk der 435 Accounts, nur Follower und Friends aus diesem Netzwerk (netzwerkintern)
 - edges_intern_followers.csv: dito, beschränkt auf die Follower
 - edges_intern_friends.csv: dito, beschränkt auf die Friends (Accounts, denen gefolgt wird).
+- edges_intern_mentions.csv: Zusammenfassung von Mentions und Retweets (im Datenmodell die `user_mentions` in den `entities` eines Tweets).
 
 Die Gephi-Dateien enthalten die in den \*\_ff.csv abgelegten Daten.
 
 - viz.gephi: Netzwerk der 435 Accounts und ihrer jeweiligen Friends und Follower
 - viz_intern.gephi: Netzwerk der 435 Accounts; Friends und Follower auf das Hashtagnetzwerk beschränkt
-	- Workspace 1: Friends und Followers
+	- Workspace 1: Friends, Followers, Mentions
 	- Workspace 2: Followers only
 
 Die Daten wurden in IPython-Sessions verarbeitet. Der Ordner *sessions* enthält die Logs dieser Sessions. Im Skript analuese.py finden sich eine Reihe von Hilfsfunktionen, die in den IPython-Sessions verwendet wurden, vor allem mit Blick auf das Information Retrieval von twitter.com.
@@ -44,7 +46,7 @@ Die Daten wurden in IPython-Sessions verarbeitet. Der Ordner *sessions* enthält
 
 Die Visualisierungen sind mit heißer Nadel gestrickt. Auffällig ist, dass die Accounts des Hashtagnetzwerks #dhd2018 auch über Following gut und dicht vernetzt sind, was bei einer Fachkonferenz einerseits verständlich ist, in diesem Maß aber dennoch bemerkenswert erscheint. 
 
-Über die Modularity des Netzwerks lassen sich ein paar Communities schwach unterscheiden. Ob diese Communities den Schwerpunkten der Digital Humanities -- Editionsphilologie, Textanalyse, Bildanalyse, Kulturelles Erbe -- zugeordnet werden können, könnte nur mit einer fachlichen Zuordnung einer ausreichend großen Menge von Accounts geprüft werden.
+Über die Modularity des Netzwerks lassen sich ein paar Communities schwach unterscheiden. Ob diese Communities Schwerpunkten der Digital Humanities -- Editionsphilologie, Textanalyse, Bildanalyse, Kulturelles Erbe -- zugeordnet werden können, könnte nur mit einer fachlichen Zuordnung einer ausreichend großen Menge von Accounts geprüft werden.
 
 ![Communities des Hashtagnetzwerks #dhd2018 (nur Following, Modularity 1.05](visuals/full_followers_cluster_modularity.png)
 
@@ -90,7 +92,7 @@ Setup des Netzwerks: Wie Netzwerk 1
 Setup des Netzwerks: Wie Netzwerk 1
 
 - 435 Accounts/Knoten, 
-- 18.8812 Verbindungen
+- 18.812 Verbindungen
 - Unterscheidung von Communities durch die *modularity* des Netzwerks; 
 
 
@@ -99,6 +101,5 @@ Setup des Netzwerks: Wie Netzwerk 1
 Thanks to
 
 - Miriam K. Posner for [the explanation of how to use Modularity in Gephi to colorize communities](http://miriamposner.com/dh101f14/wp-content/uploads/2014/11/Creating-a-Network-Graph-with-Gephi.pdf). 
-- Mareike König für die Sammlung der Daten zu #dhd2017
 
 
