@@ -6,7 +6,7 @@
 
 In diesem Repository liegen die Daten zum Twitter-Hashtagnetzwerk #dhd2018 (Hashtag zur Konferenz DHd 2018 Kritik der digitalen Vernunft) für den Zeitraum vom 20.2.2018 bis zum 2.3.2018 (~17 Uhr MEZ). Die Auswertung der Daten war explorativ und ist (noch) sehr unvollständig. Einige Visualisierungen des Netzwerks finden sich weiter unten, ansonsten dient das Repository vor allem dazu, die Daten für die weitere Auswertung zur Verfügung zu stellen.
 
-*Nachtrag 4.3.2018:* Die Konferenzveranstalter\*innen @dhd2018 hatten die Daten schon längst in einem [Google Spreadsheet](https://docs.google.com/spreadsheets/d/1Yzt80jt6jxH7r3GbpPnNUF0qMUAobjeQKPxUAaJwxvE/edit#gid=400689247). See <https://twitter.com/dhd2018/status/970211768902586368>
+*Nachtrag 4.3.2018:* Die Konferenzveranstalter\*innen @dhd2018 hatten die Tweets schon längst in einem [Google Spreadsheet](https://docs.google.com/spreadsheets/d/1Yzt80jt6jxH7r3GbpPnNUF0qMUAobjeQKPxUAaJwxvE/edit#gid=400689247). See <https://twitter.com/dhd2018/status/970211768902586368>
 
 
 ## Daten
