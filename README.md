@@ -69,7 +69,7 @@ Nach Betweenness ist der wichtigste Hub im gesamten Netzwerk der Account @umblae
 
 Wenn man das Netzwerk auf die Retweets und Mentions reduziert werden einzelne Cluster deutlicher sichtbar und das Netzwerk zerfällt in ein großes und wenige kleine Netze und eine Reihe von unverbundenen Accounts. Wichtig ist erwartungsgemäß der Konferenzaccount @dhd2018. Eine Charakterisierung der Cluster mit Bezug zur sozialen, disziplinären oder thematischen Kommunikationsstruktur des Konferenzfelds scheint schwierig und weitergehende Schlüsse wären auf zusätzliche Daten angewiesen, zumal die Anzahl der Mentions und Retweets sehr gering ist (489 Mentions und Retweets bei 435 beteiligten Accounts). 
 
-![Cluster Hashtagnetzwerk #dhd2018, nur Mentions und Retweets, Eingefärbt nach Modularity 1.00](visuals/mentions_modularity_clusters_4.png)
+![Cluster Hashtagnetzwerk #dhd2018, nur Mentions und Retweets, Eingefärbt nach Modularity 1.00](visuals/mentions_modularity_clusters4.png)
 
 
 ## Labornotizen
