@@ -1,6 +1,6 @@
 % Notizbuch Netzwerkexploration #dhd2018
 % Claus-Michael Schlesinger
-% 4444.3.2018
+% 5.3.2018
 
 ## Kurzbeschreibung
 
@@ -104,6 +104,13 @@ Setup des Netzwerks: Wie Netzwerk 1
 - 18.812 Verbindungen
 - Unterscheidung von Communities durch die *modularity* des Netzwerks; 
 
+### Netzwerk 4: Alle verknüpften Accounts, nur Mentions und Retweets
+
+Setup: wie Netzwerk 1
+
+- 435 Knoten
+- 439 Verbindungen (Mentions und Retweets)
+- Farbliche Unterscheidung von Communities durch die *modularity* mit Wert 1.00.
 
 ## Acknowledgements
 
