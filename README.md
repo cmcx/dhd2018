@@ -46,6 +46,8 @@ Die Daten wurden in IPython-Sessions verarbeitet. Der Ordner *sessions* enthält
 
 Die Visualisierungen sind mit heißer Nadel gestrickt. Auffällig ist, dass die Accounts des Hashtagnetzwerks #dhd2018 auch über Following gut und dicht vernetzt sind, was bei einer Fachkonferenz einerseits verständlich ist, in diesem Maß aber dennoch bemerkenswert erscheint. 
 
+### Following
+
 Über die Modularity des Netzwerks lassen sich ein paar Communities schwach unterscheiden. Ob diese Communities Schwerpunkten der Digital Humanities -- Editionsphilologie, Textanalyse, Bildanalyse, Kulturelles Erbe -- zugeordnet werden können, könnte nur mit einer fachlichen Zuordnung einer ausreichend großen Menge von Accounts geprüft werden.
 
 ![Communities des Hashtagnetzwerks #dhd2018 (nur Following, Modularity 1.05](visuals/full_followers_cluster_modularity.png)
@@ -61,6 +63,13 @@ Das Netzwerk zerfällt also kaum in unterscheidbare Communities, es ist eher zen
 Nach Betweenness ist der wichtigste Hub im gesamten Netzwerk der Account @umblaetterer. Was natürlich für das Netzwerk einer Konferenz zur "Kritik der digitalen Vernunft" allein wegen der Medienreflexion, die sich in diesem Zusammenhang im Accountnamen andeutet, großartig ist.
 
 ![Hub, Hashtagnetzwerk #dhd2018](visuals/hub.png)
+
+
+### Retweets und Mentions
+
+Wenn man das Netzwerk auf die Retweets und Mentions reduziert werden einzelne Cluster deutlicher sichtbar und das Netzwerk zerfällt in ein großes und wenige kleine Netze und eine Reihe von unverbundenen Accounts. Wichtig ist erwartungsgemäß der Konferenzaccount @dhd2018. Eine Charakterisierung der Cluster mit Bezug zur sozialen, disziplinären oder thematischen Kommunikationsstruktur des Konferenzfelds scheint schwierig und weitergehende Schlüsse wären auf zusätzliche Daten angewiesen, zumal die Anzahl der Mentions und Retweets sehr gering ist (489 Mentions und Retweets bei 435 beteiligten Accounts). 
+
+![Cluster Hashtagnetzwerk #dhd2018, nur Mentions und Retweets, Eingefärbt nach Modularity 1.00](visuals/mentions_modularity_clusters_4.png)
 
 
 ## Labornotizen
